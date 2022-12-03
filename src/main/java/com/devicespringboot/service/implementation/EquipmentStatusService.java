@@ -61,5 +61,9 @@ public class EquipmentStatusService implements IGeneralService<EquipmentStatusDT
 	public EquipmentStatusDTO findOneById(Long id) {
 		return equipmentStatusConverter.toDTO(equipmentStatusRepository.getOne(id));
 	}
-
+	
+	@Override
+	public boolean existsById(Long id) {
+		return equipmentStatusRepository.existsById(id);
+	}
 }

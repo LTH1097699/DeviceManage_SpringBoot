@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 @Entity
 @Table(name = "employee")
 public class EmployeeEntity extends AbstractEntity {
@@ -18,46 +23,14 @@ public class EmployeeEntity extends AbstractEntity {
 	private String name;
 	
 	@OneToOne
-	@JoinColumn(name = "status_code", referencedColumnName = "code")
+	@JoinColumn(name = "status_code", referencedColumnName = "code", columnDefinition = "varchar(20)")
 	private EmployeeStatusEntity status;
 	
-	@OneToMany(mappedBy = "employee")
-	private List<EquipedEmployee> equipedEmployees = new ArrayList<>();
+	@OneToMany(mappedBy = "employee",fetch = FetchType.LAZY)
+	private List<EquipedEmployeeEntity> equipedEmployees;
 	
-	@OneToOne(mappedBy = "employee")
+	@OneToOne(mappedBy = "employee",fetch = FetchType.LAZY)
 	private AccountEntity account;
 	
-
-	public List<EquipedEmployee> getEquipedEmployees() {
-		return equipedEmployees;
-	}
-
-	public void setEquipedEmployees(List<EquipedEmployee> equipedEmployees) {
-		this.equipedEmployees = equipedEmployees;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public EmployeeStatusEntity getStatus() {
-		return status;
-	}
-
-	public void setStatus(EmployeeStatusEntity status) {
-		this.status = status;
-	}
-
-	public AccountEntity getAccount() {
-		return account;
-	}
-
-	public void setAccount(AccountEntity account) {
-		this.account = account;
-	}
 
 }

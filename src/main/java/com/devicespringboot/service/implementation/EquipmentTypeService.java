@@ -67,4 +67,9 @@ public class EquipmentTypeService implements IGeneralService<EquipmentTypeDTO> {
 		return equipmentTypeConverter.toDTO(
 					equipmentTypeRepository.getOne(id));
 	}
+	
+	@Override
+	public boolean existsById(Long id) {
+		return equipmentTypeRepository.existsById(id);
+	}
 }

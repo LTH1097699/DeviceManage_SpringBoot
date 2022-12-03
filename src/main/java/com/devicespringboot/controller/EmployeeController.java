@@ -1,79 +1,81 @@
 package com.devicespringboot.controller;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.devicespringboot.dto.EmployeeDTO;
 import com.devicespringboot.service.IEmployeeService;
 import com.devicespringboot.service.implementation.RoleService;
 
-
+import antlr.collections.List;
 
 @Controller
-@RequestMapping("/employee")
+@RequestMapping(value = "employee")
 public class EmployeeController {
 	@Autowired
 	private IEmployeeService employeeService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
-	private static Logger logger = Logger.getAnonymousLogger();
-	
-	@RequestMapping(value = {"/edit","/edit/{id}"}, method = RequestMethod.GET)
-	public String getAddView(@PathVariable Map<String, String> pathVariableMap,
-							Model model) {
-		if(pathVariableMap.containsKey("id")) {
-			model.addAttribute("employee", employeeService.findOneById(
-					Long.parseLong(pathVariableMap.get("id"))));
-		}else {
-			model.addAttribute("employee", new EmployeeDTO());
-		}
-		model.addAttribute("roles",roleService.findAll());
-		
-		return "/employee/edit";
+
+	@GetMapping(value = { "/edit" })
+	public String getAddView(Model model) {
+		model.addAttribute("employee", new EmployeeDTO());
+		model.addAttribute("roles", roleService.findAll());
+
+		return "employee/edit";
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
-        return "sign_in";
-    }
-	
-	@RequestMapping(value = "/employee/list", method = RequestMethod.GET)
-	public String getListView() {	
+
+	@GetMapping(value = { "/edit/{id}" })
+	public String getEditView(@PathVariable Map<String, String> pathVariableMap, Model model) {
+		model.addAttribute("employee", employeeService.findOneById(
+				Long.parseLong(pathVariableMap.get("id"))));
+		model.addAttribute("roles", roleService.findAll());
+
+		return "employee/edit";
+	}
+
+	@GetMapping
+	public String getListView(Model model,@SortDefault(sort = "id", direction = Direction.DESC) Sort sort) {
+		
 		return "employee/list";
 	}
 	
-	@RequestMapping(value = "/get/employee/{id}", method = RequestMethod.GET)
+	@GetMapping("/sort")
+	public String getSortedListView(Model model) {
+		
+		model.addAttribute("totalPages",10);
+		return "employee/list";
+	}
+
+	@ResponseBody
+	@PostMapping(value = "/edit")
+	public Long add(@RequestBody EmployeeDTO employee) {
+		return employeeService.save(employee).getId();
+	}
+
+	@ResponseBody
+	@DeleteMapping(value = "/delete/{id}")
 	public void delete(@PathVariable(name = "id") String id) {
-		logger.info("Customeer loggeerrr");
-		employeeService.delete(Long.parseLong(id));
+		if (!employeeService.existsById(Long.valueOf(id))) {
+			employeeService.delete(Long.parseLong(id));
+		}
 	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String getListViewTest() {	
-		return "/test";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 //	
 //	@RequestMapping(value = "/login", method = RequestMethod.GET)
 //	public ModelAndView loginPage(HttpServletRequest request) {
@@ -129,9 +131,7 @@ public class EmployeeController {
 //	public ModelAndView accessDenied() {
 //		return new ModelAndView("redirect:/login?accessDenied");
 //	}
-	
-	
-	
+
 //	 @GetMapping("/customer/list")
 //	    public String getCustomerListView(Model model,HttpServletRequest request){
 //	        if(request.getAttribute("search")!=null){
@@ -229,4 +229,3 @@ public class EmployeeController {
 //	        return "add";
 //	    }
 }
-	

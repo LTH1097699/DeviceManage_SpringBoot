@@ -2,8 +2,14 @@ package com.devicespringboot.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 @Entity
 @Table(name = "emp_status")
 public class EmployeeStatusEntity extends AbstractEntity {
@@ -12,20 +18,8 @@ public class EmployeeStatusEntity extends AbstractEntity {
 	
 	@Column(name = "name")
 	private String name;
+	
+	@OneToOne(mappedBy = "status",fetch = FetchType.LAZY)
+	private EmployeeEntity employee;
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 }

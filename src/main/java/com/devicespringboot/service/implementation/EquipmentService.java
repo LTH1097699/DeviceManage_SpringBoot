@@ -63,5 +63,10 @@ public class EquipmentService implements IEquipmentService {
 	public EquipmentDTO findOneById(Long id) {
 		return equipmentConverter.toDTO(equipmentRepository.getOne(id));
 	}
+	
+	@Override
+	public boolean existsById(Long id) {
+		return equipmentRepository.existsById(id);
+	}
 
 }

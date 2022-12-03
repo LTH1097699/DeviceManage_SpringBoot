@@ -59,5 +59,9 @@ public class EmployeeStatusService implements IGeneralService<EmployeeStatusDTO>
 	public EmployeeStatusDTO findOneById(Long id) {
 		return employeeStatusConverter.toDTO(employeeStatusRepository.getOne(id));
 	}
-
+	
+	@Override
+	public boolean existsById(Long id) {
+		return employeeStatusRepository.existsById(id);
+	}
 }

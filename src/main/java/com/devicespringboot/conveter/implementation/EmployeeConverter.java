@@ -5,13 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.devicespringboot.conveter.IEmployeeConverter;
+import com.devicespringboot.conveter.IGeneralConverter;
 import com.devicespringboot.dto.EmployeeDTO;
 import com.devicespringboot.entity.EmployeeEntity;
 
-
 @Component
-public class EmployeeConverter implements IEmployeeConverter {
+public class EmployeeConverter implements IGeneralConverter<EmployeeDTO, EmployeeEntity> {
 
 	@Override
 	public EmployeeEntity toEntity(EmployeeDTO d) {

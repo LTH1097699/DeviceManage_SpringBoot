@@ -6,10 +6,12 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,7 +24,13 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.devicespringboot"})
+
+/*
+ *  dont need to declare @Repository in interface cuz we have @EnableJpaRepositories
+ *  
+ */
 @EnableJpaRepositories(basePackages = {"com.devicespringboot.repository"})
+@EnableJpaAuditing(auditorAwareRef = "auditorRef")
 public class WebConfig implements WebMvcConfigurer {
 	
 	/* 
@@ -76,7 +84,19 @@ public class WebConfig implements WebMvcConfigurer {
 		return builder.buildSessionFactory();
 	}
 	
+	@Bean
+	@Description("enable jpa auditing")
+	public JpaAuditing auditorRef() {
+		return new JpaAuditing();
+	}
 	
+	@Bean
+	@Description("filter view when mapping url")
+	public FilterRegistrationBean<SiteMeshFilter> sitemeshFilter(){
+		FilterRegistrationBean<SiteMeshFilter> filter = new FilterRegistrationBean<>();
+		filter.setFilter(new SiteMeshFilter());
+		return filter;
+	}
 	
 	
 	

@@ -7,6 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 @Entity
 @Table(name = "emp_account")
 public class AccountEntity extends AbstractEntity {
@@ -27,43 +31,4 @@ public class AccountEntity extends AbstractEntity {
 	@JoinColumn(name = "emp_id", referencedColumnName = "id")
 	private EmployeeEntity employee;
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public RoleEntity getRole() {
-		return role;
-	}
-
-	public void setRole(RoleEntity role) {
-		this.role = role;
-	}
-
-	public EmployeeEntity getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(EmployeeEntity employee) {
-		this.employee = employee;
-	}
 }

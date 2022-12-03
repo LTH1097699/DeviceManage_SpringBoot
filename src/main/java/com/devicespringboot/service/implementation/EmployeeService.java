@@ -37,7 +37,7 @@ public class EmployeeService implements IEmployeeService {
 
 	public List<EmployeeDTO> findAll(Pageable pageable) {
 		List<EmployeeDTO> ds = findAll();
-		if (ds.size() == 0)
+		if (ds.isEmpty())
 			return new ArrayList<>();
 
 		int start = pageable.getPageNumber();
@@ -73,6 +73,11 @@ public class EmployeeService implements IEmployeeService {
 
 	public void delete(Long id, String n) {
 		deletionListeners.forEach(listener -> listener.deleteEmployee(id));
+	}
+
+	@Override
+	public boolean existsById(Long id) {
+		return employeeRepository.existsById(id);
 	}
 
 	

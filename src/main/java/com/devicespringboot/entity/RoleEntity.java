@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 @Entity
 @Table(name = "role")
 public class RoleEntity extends AbstractEntity {
@@ -16,31 +21,7 @@ public class RoleEntity extends AbstractEntity {
 	@Column(name = "name")
 	private String roleName;
 
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private List<AccountEntity> accounts;
-
-	public String getRoleCode() {
-		return roleCode;
-	}
-
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public List<AccountEntity> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<AccountEntity> accounts) {
-		this.accounts = accounts;
-	}
 
 }

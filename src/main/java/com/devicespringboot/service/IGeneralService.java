@@ -7,4 +7,5 @@ public interface IGeneralService<T> {
 	T save(T t);
 	void delete(Long id);
 	T findOneById(Long id);
+	boolean existsById(Long id);
 }

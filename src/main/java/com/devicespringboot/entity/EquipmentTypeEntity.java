@@ -4,8 +4,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter@Setter
 @Entity
 @Table(name = "equipment_type")
 public class EquipmentTypeEntity extends AbstractEntity {
@@ -15,24 +21,7 @@ public class EquipmentTypeEntity extends AbstractEntity {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "equipmentType")
+	@OneToMany(mappedBy = "equipmentType", fetch = FetchType.LAZY)
 	private List<EquipmentEntity> equipments;
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	
 }
