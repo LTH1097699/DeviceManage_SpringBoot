@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -98,6 +99,11 @@ public class WebConfig implements WebMvcConfigurer {
 		return filter;
 	}
 	
-	
+	@Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+    	CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(100000000);
+        return multipartResolver;
+    }
 	
 }

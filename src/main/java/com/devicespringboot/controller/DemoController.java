@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class EmployeeControllerss {
+public class DemoController {
 	
 	
 	@GetMapping(value = "/user-list")

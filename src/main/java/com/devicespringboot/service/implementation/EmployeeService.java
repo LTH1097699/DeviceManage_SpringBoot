@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,8 @@ import com.devicespringboot.conveter.implementation.EmployeeConverter;
 import com.devicespringboot.dto.EmployeeDTO;
 import com.devicespringboot.entity.EmployeeEntity;
 import com.devicespringboot.repository.EmployeeRepository;
-import com.devicespringboot.service.IEmployeeListener;
+import com.devicespringboot.service.IAccountListener;
 import com.devicespringboot.service.IEmployeeService;
-
-
 
 @Service
 public class EmployeeService implements IEmployeeService {
@@ -24,11 +23,9 @@ public class EmployeeService implements IEmployeeService {
 
 	@Autowired
 	private EmployeeConverter employeeConverter;
-
-	@Autowired
-	private List<IEmployeeListener> deletionListeners;
 	
-	private AccountListener accountListener;
+	@Autowired
+	private IAccountListener accountListener;
 
 	@Override
 	public List<EmployeeDTO> findAll() {
@@ -57,13 +54,14 @@ public class EmployeeService implements IEmployeeService {
 			return employeeConverter.toDTO(
 					employeeRepository.save(employeeConverter.toOldEntity(t, oldE)));
 		}
-		return employeeConverter.toDTO(
-				employeeRepository.save(employeeConverter.toEntity(t)));
+		EmployeeEntity e = employeeRepository.save(employeeConverter.toEntity(t));
+		return accountListener.createAccountForEmployee(e);
 	}
 
 	@Override
 	public void delete(Long id) {
 		employeeRepository.deleteById(id);
+		accountListener.deleteAccountForEmployee(id);
 	}
 
 	@Override
@@ -71,33 +69,15 @@ public class EmployeeService implements IEmployeeService {
 		return employeeConverter.toDTO(employeeRepository.getOne(id));
 	}
 
-	public void delete(Long id, String n) {
-		deletionListeners.forEach(listener -> listener.deleteEmployee(id));
-	}
-
 	@Override
 	public boolean existsById(Long id) {
 		return employeeRepository.existsById(id);
 	}
 
-	
-//	@Override
-//	public EmployeeDTO findById(Long id) {
-//		Optional<EmployeeEntity> eOpt = employeeRepository.findById(id);
-//		return eOpt.isPresent() ? employeeConverter.toDTO(eOpt.get()) : null;
-//	}
-//
-//	@Transactional
-//	@Override
-//	public Long add(EmployeeDTO employee) {
-//		ModelMapper mapper = new ModelMapper();
-//		EmployeeEntity entity = mapper.map(employee, EmployeeEntity.class);
-//		AccountEntity account = mapper.map(employee.getAccount(), AccountEntity.class);
-//		RoleEntity role = roleRepository.findByRoleCode(employee.getAccount().getRole().getRoleCode());
-//		account.setRole(role);
-//		entity.setAccount(account);
-//		return employeeRepository.save(entity).getId();
-//	}
-//
+	@Override
+	public Page<EmployeeDTO> findAllPage(Pageable pageable) {
+		return employeeConverter.toPagesDTO(
+				employeeRepository.findAll(pageable));
+	}
 
 }

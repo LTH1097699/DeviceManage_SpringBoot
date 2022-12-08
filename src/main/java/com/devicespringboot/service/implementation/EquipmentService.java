@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class EquipmentService implements IEquipmentService {
 	@Override
 	public List<EquipmentDTO> findAll(Pageable pageable) {
 		List<EquipmentDTO> ds = findAll();
-		if (ds.size() == 0)
+		if (ds.isEmpty())
 			return new ArrayList<>();
 
 		int start = pageable.getPageNumber();
@@ -67,6 +68,11 @@ public class EquipmentService implements IEquipmentService {
 	@Override
 	public boolean existsById(Long id) {
 		return equipmentRepository.existsById(id);
+	}
+	@Override
+	public Page<EquipmentDTO> findAllPage(Pageable pageable) {
+		return equipmentConverter.toPagesDTO(
+				equipmentRepository.findAll(pageable));
 	}
 
 }

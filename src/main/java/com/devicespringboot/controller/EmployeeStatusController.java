@@ -4,41 +4,83 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.devicespringboot.constant.Constant;
 import com.devicespringboot.dto.EmployeeStatusDTO;
 import com.devicespringboot.service.implementation.EmployeeStatusService;
 
 
 @Controller
+@ControllerAdvice
 @RequestMapping(value = "employeestatus")
-public class EmployeeStatusController {
+public class EmployeeStatusController extends AbstractController<EmployeeStatusDTO> {
 	
 	@Autowired
 	private EmployeeStatusService employeeStatusService;
 	
-	@GetMapping(value = "/list")
-	public String getListView(@RequestParam(name = "page",required = false) Integer page, Model model) {
-		List<EmployeeStatusDTO> dtos;
-		if(page != null) {
-			Pageable pageable = PageRequest.of(page-1, 10);
-			dtos = employeeStatusService.findAll(pageable);
-		}else {
-			Pageable pageable = PageRequest.of(0, 10);
-			dtos = employeeStatusService.findAll(pageable);
+	@GetMapping(value = "/edit")
+	public String getAddView(@RequestParam(name = "message", required = false) String message,
+			Model model) {
+		if (message != null && !message.isEmpty()) {
+			model.addAttribute(Constant.MESSAGE, message);
 		}
-		model.addAttribute("",dtos);
-		return "employee/employee_status/list";
+		
+		model.addAttribute("employeeStatus", new EmployeeStatusDTO());
+		return "employee_status/add";
+	}
+
+	@GetMapping(value = "/edit/{id}")
+	public String getEditView(@RequestParam(name = "message", required = false) String message,
+			@PathVariable Map<String, String> pathVariableMap, Model model) {
+		if (message != null && !message.isEmpty()) {
+			model.addAttribute(Constant.MESSAGE, message);
+		}
+		EmployeeStatusDTO d = employeeStatusService.findOneById(Long.parseLong(pathVariableMap.get("id")));
+		model.addAttribute("employeeStatus", d);
+
+		return "employee_status/add";
+	}
+	
+	@GetMapping
+	public String getListView(@RequestParam(name = "message", required = false) String message,
+			@RequestParam(defaultValue = "1", name = "page", required = false) Integer page,
+			@RequestParam(defaultValue = "id", name = "sort", required = false) String sort,
+			Model model) {
+		Sort sort2 = Sort.by(Direction.DESC, sort);
+		Pageable pageable = PageRequest.of(page - 1, 10,sort2);
+		
+		Page<EmployeeStatusDTO> pageDTO = employeeStatusService.findAllPage(pageable);
+		model.addAttribute("pageDTO", pageDTO);
+		return "employee_status/list";
+	}
+	
+	@GetMapping(value = "/pagination")
+	public String getListViewPagination(
+			@RequestParam(defaultValue = "1", name = "page", required = false) Integer page,
+			@RequestParam(defaultValue = "id", name = "sort", required = false) String sort, 
+			Model model) {
+		Sort sort2 = Sort.by(Direction.DESC, sort);
+		Pageable pageable = PageRequest.of(page - 1, 10,sort2);
+		
+		Page<EmployeeStatusDTO> pageDTO = employeeStatusService.findAllPage(pageable);
+		model.addAttribute("pageDTO", pageDTO);
+
+		return "employee_status/table";
 	}
 	
 	@PostMapping(value = "/edit")
@@ -46,11 +88,9 @@ public class EmployeeStatusController {
 		return employeeStatusService.save(employeeStatus).getId();
 	}
 	
-	@DeleteMapping(value = "/deletee/{id}")
-	public void delete(@PathVariable(name = "id") String id) {
-		if(!employeeStatusService.existsById(Long.valueOf(id))) {
-			employeeStatusService.delete(Long.parseLong(id));
-		}
+	@ModelAttribute(name = "employeeStatus")
+	public List<EmployeeStatusDTO> getEmployeeStatusList(){
+		return employeeStatusService.findAll();
 	}
 	
 }

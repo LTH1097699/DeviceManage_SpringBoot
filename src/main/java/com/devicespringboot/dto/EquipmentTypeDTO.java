@@ -1,8 +1,13 @@
 package com.devicespringboot.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 public class EquipmentTypeDTO extends AbstractDTO<EquipmentTypeDTO> {
+	@NotEmpty
 	private String code;
+	@NotEmpty
 	private String name;
+	
 	public String getCode() {
 		return code;
 	}

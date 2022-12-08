@@ -12,6 +12,8 @@ public class EquipmentDTO extends AbstractDTO<EquipmentDTO> {
 	private MultipartFile multipartFile;
 	
 	private EquipmentStatusDTO status;
+	
+	private EquipmentTypeDTO type;
 
 	private String description;
 
@@ -61,6 +63,14 @@ public class EquipmentDTO extends AbstractDTO<EquipmentDTO> {
 
 	public void setMultipartFile(MultipartFile multipartFile) {
 		this.multipartFile = multipartFile;
+	}
+
+	public EquipmentTypeDTO getType() {
+		return type;
+	}
+
+	public void setType(EquipmentTypeDTO type) {
+		this.type = type;
 	}
 	
 }

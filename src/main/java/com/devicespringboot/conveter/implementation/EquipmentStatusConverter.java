@@ -3,12 +3,12 @@ package com.devicespringboot.conveter.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.devicespringboot.conveter.IGeneralConverter;
 import com.devicespringboot.dto.EquipmentStatusDTO;
 import com.devicespringboot.entity.EquipmentStatusEntity;
-
 
 @Component
 public class EquipmentStatusConverter implements IGeneralConverter<EquipmentStatusDTO, EquipmentStatusEntity>{
@@ -50,8 +50,15 @@ public class EquipmentStatusConverter implements IGeneralConverter<EquipmentStat
 
 	@Override
 	public EquipmentStatusEntity toOldEntity(EquipmentStatusDTO d, EquipmentStatusEntity oldE) {
-		// TODO Auto-generated method stub
-		return null;
+		oldE.setCode(d.getCode());
+		oldE.setName(d.getName());
+		return oldE;
+	}
+
+	@Override
+	public Page<EquipmentStatusDTO> toPagesDTO(Page<EquipmentStatusEntity> pageE) {
+		
+		return pageE.map(t -> toDTO(t));
 	}
 	
 

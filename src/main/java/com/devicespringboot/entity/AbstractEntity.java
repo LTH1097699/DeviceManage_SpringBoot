@@ -15,11 +15,10 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import com.devicespringboot.config.JpaAuditing;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
-@EntityListeners(JpaAuditing.class)
+@EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity {
 	/* 
 	 * IDENTITY told with hiberante let database handle the auto incrementing 

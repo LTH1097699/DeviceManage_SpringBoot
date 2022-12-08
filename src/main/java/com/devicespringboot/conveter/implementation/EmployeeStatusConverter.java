@@ -3,13 +3,12 @@ package com.devicespringboot.conveter.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.devicespringboot.conveter.IGeneralConverter;
 import com.devicespringboot.dto.EmployeeStatusDTO;
 import com.devicespringboot.entity.EmployeeStatusEntity;
-
-
 
 @Component
 public class EmployeeStatusConverter implements IGeneralConverter<EmployeeStatusDTO, EmployeeStatusEntity> {
@@ -33,7 +32,6 @@ public class EmployeeStatusConverter implements IGeneralConverter<EmployeeStatus
 
 	@Override
 	public List<EmployeeStatusEntity> toListEntity(List<EmployeeStatusDTO> ds) {
-		if(ds.size()==0 || ds == null) return new ArrayList<>();
 		List<EmployeeStatusEntity> es = new ArrayList<>();
 		for(EmployeeStatusDTO d : ds) {
 			es.add(toEntity(d));
@@ -43,7 +41,6 @@ public class EmployeeStatusConverter implements IGeneralConverter<EmployeeStatus
 
 	@Override
 	public List<EmployeeStatusDTO> toListDTO(List<EmployeeStatusEntity> es) {
-		if(es.size()==0 || es == null) return new ArrayList<>();
 		List<EmployeeStatusDTO> ds = new ArrayList<>();
 		for(EmployeeStatusEntity e : es) {
 			ds.add(toDTO(e));
@@ -56,6 +53,11 @@ public class EmployeeStatusConverter implements IGeneralConverter<EmployeeStatus
 		oldE.setCode(d.getCode());
 		oldE.setName(d.getName());
 		return oldE;
+	}
+
+	@Override
+	public Page<EmployeeStatusDTO> toPagesDTO(Page<EmployeeStatusEntity> pageE) {
+		return pageE.map(t -> toDTO(t));
 	}
 
 }

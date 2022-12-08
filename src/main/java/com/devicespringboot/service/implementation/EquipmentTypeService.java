@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,20 +30,6 @@ public class EquipmentTypeService implements IGeneralService<EquipmentTypeDTO> {
 	@Override
 	public List<EquipmentTypeDTO> findAll() {
 		return equipmentTypeConverter.toListDTO(equipmentTypeRepository.findAll());
-	}
-
-	public List<EquipmentTypeDTO> findAll(Pageable pageable) {
-		List<EquipmentTypeDTO> ds = findAll();
-		if (ds.isEmpty())
-			return new ArrayList<>();
-
-		int start = pageable.getPageNumber()*pageable.getPageSize();
-		int end = start + pageable.getPageSize();
-
-		if (end > ds.size())
-			end = ds.size();
-
-		return new PageImpl<>(ds.subList(start, end), pageable, ds.size()).getContent();
 	}
 	
 	@Transactional
@@ -71,5 +59,34 @@ public class EquipmentTypeService implements IGeneralService<EquipmentTypeDTO> {
 	@Override
 	public boolean existsById(Long id) {
 		return equipmentTypeRepository.existsById(id);
+	}
+	
+	@Override
+	public Page<EquipmentTypeDTO> findAllPage(Pageable pageable) {
+		return equipmentTypeConverter.toPagesDTO(equipmentTypeRepository.findAll(pageable));
+	}
+	
+	
+	public long countTotalItems() {
+		return equipmentTypeRepository.count();
+	}
+	
+	public List<EquipmentTypeDTO> findAllPageByList(Pageable pageable) {
+		List<EquipmentTypeDTO> ds = findAll();
+		if (ds.isEmpty())
+			return new ArrayList<>();
+
+		int start = pageable.getPageNumber()*pageable.getPageSize();
+		int end = start + pageable.getPageSize();
+
+		if (end > ds.size())
+			end = ds.size();
+
+		return new PageImpl<>(ds.subList(start, end), pageable, ds.size()).getContent();
+	}
+	
+	public Slice<EquipmentTypeDTO> findAllSlice(Pageable pageable) {
+		Slice<EquipmentTypeEntity> sl = equipmentTypeRepository.findBy(pageable);
+		return equipmentTypeConverter.toSliceDTO(sl);
 	}
 }

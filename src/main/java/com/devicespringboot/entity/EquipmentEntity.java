@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -24,6 +23,9 @@ public class EquipmentEntity extends AbstractEntity {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "fileName")
+	private String fileName;
+	
 	@Column(name = "description")
 	private String description;
 	
@@ -34,7 +36,7 @@ public class EquipmentEntity extends AbstractEntity {
 	@JoinColumn(name = "type_id", referencedColumnName = "id")
 	private EquipmentTypeEntity equipmentType;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status_id", referencedColumnName = "id")
 	private EquipmentStatusEntity status;
 	

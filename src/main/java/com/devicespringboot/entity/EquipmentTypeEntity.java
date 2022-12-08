@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,7 +20,7 @@ public class EquipmentTypeEntity extends AbstractEntity {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "equipmentType", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "equipmentType")
 	private List<EquipmentEntity> equipments;
 	
 }

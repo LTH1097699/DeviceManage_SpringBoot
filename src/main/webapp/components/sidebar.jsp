@@ -40,7 +40,7 @@
 			aria-labelledby="headingEmployee" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Components:</h6>
-				<c:url var="employeeListURL" value="/employee/list">
+				<c:url var="employeeListURL" value="/employee">
 
 				</c:url>
 				<a class="collapse-item" href="${employeeListURL}">List</a>
@@ -62,14 +62,14 @@
 			aria-labelledby="headingEquipment" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Components:</h6>
-				<c:url var="equipmentTypeListURL" value="/equipment/list">
+				<c:url var="equipmentListURL" value="/equipment">
 
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeListURL}">List</a>
+				<a class="collapse-item" href="${equipmentListURL}">List</a>
 
-				<c:url var="equipmentTypeEditURL" value="/equipment-type/edit">
+				<c:url var="equipmentEditURL" value="/equipment/edit">
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeEditURL}">Add</a>
+				<a class="collapse-item" href="${equipmentEditURL}">Add</a>
 
 			</div>
 		</div></li>
@@ -90,12 +90,12 @@
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Components:</h6>
 				
-				<c:url var="equipmentTypeListURL" value="/equipment-type/list">
+				<c:url var="equipmentTypeListURL" value="/equipmenttype">
 
 				</c:url>
 				<a class="collapse-item" href="${equipmentTypeListURL}">List</a>
 
-				<c:url var="equipmentTypeEditURL" value="/equipment-type/edit">
+				<c:url var="equipmentTypeEditURL" value="/equipmenttype/edit">
 				</c:url>
 				<a class="collapse-item" href="${equipmentTypeEditURL}">Add</a>
 
@@ -119,14 +119,14 @@
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Components:</h6>
-				<c:url var="equipmentTypeListURL" value="/equipment-type/list">
+				<c:url var="employeeStatusListURL" value="/employeestatus">
 
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeListURL}">List</a>
+				<a class="collapse-item" href="${employeeStatusListURL}">List</a>
 
-				<c:url var="equipmentTypeEditURL" value="/equipment-type/edit">
+				<c:url var="employeeStatusEditURL" value="/employeestatus/edit">
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeEditURL}">Add</a>
+				<a class="collapse-item" href="${employeeStatusEditURL}">Add</a>
 
 			</div>
 		</div></li>
@@ -142,14 +142,14 @@
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Components:</h6>
-				<c:url var="equipmentTypeListURL" value="/equipment-type/list">
+				<c:url var="equipmentStatusListURL" value="/equipmentstatus">
 
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeListURL}">List</a>
+				<a class="collapse-item" href="${equipmentStatusListURL}">List</a>
 
-				<c:url var="equipmentTypeEditURL" value="/equipment-type/edit">
+				<c:url var="equipmentStatusEditURL" value="/equipmentstatus/edit">
 				</c:url>
-				<a class="collapse-item" href="${equipmentTypeEditURL}">Add</a>
+				<a class="collapse-item" href="${equipmentStatusEditURL}">Add</a>
 
 			</div>
 		</div></li>

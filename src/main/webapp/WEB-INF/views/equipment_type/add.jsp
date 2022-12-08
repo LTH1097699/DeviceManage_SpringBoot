@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/taglib.jsp"%>
-<c:url var="listEquipmentTypeUrl" value="/equipment-type/list" />
-<c:url var="saveEquipmentType" value="/api/equipment-type" />
+<c:url var="listUrl" value="/equipmenttype" />
+<c:url var="saveUrl" value="/equipmenttype/edit" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,7 @@
 </head>
 <body>
 	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Create</h1>
+	
 
 	<div class="col-xl-8 col-lg-7 ">
 	<!-- DataTales Example -->
@@ -72,13 +72,13 @@
     
     function addEquipmentType(data) {
         $.ajax({
-            url: '${saveEquipmentType}',
+            url: '${saveUrl}',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (result) {
-            	window.location.href = "${listUrl}?message=success_save";
+            	window.location.href = "?message=success_save";
             },
             error: function (error) {
             	alert(error);
