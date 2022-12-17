@@ -13,8 +13,6 @@ public class DemoController {
 	@GetMapping(value = "/user-list")
 	//use requestPart nhan file upload tu client
 	public String getListView(@RequestPart("file") MultipartFile file) {
-		
-		
 		//return "forward:/employee/list"; co the chuyen doi data do duoc thuc thi tai server
 		//return "redirect:/employee/list"; tao mot request moi nen se mat du lieu, de chuyen data can su dung RedirectAttributes
 		return "employee/list";
